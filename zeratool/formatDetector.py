@@ -67,7 +67,7 @@ def checkFormat(binary_name, inputType="STDIN"):
         @timeout_decorator.timeout(1200)
         def exploreBinary(simgr):
             simgr.explore(find=lambda s: "type" in s.globals)
-
+        #type is set in the hooks
         exploreBinary(simgr)
         if "found" in simgr.stashes and len(simgr.found):
             end_state = simgr.found[0]

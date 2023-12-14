@@ -913,7 +913,7 @@ def get_vulnerable_function(state):
             symbol_addr = symbols_addrs[i - 1]
             symbol = state.project.loader.find_symbol(symbol_addr)
             log.info("Vulnerable function is : {}".format(symbol))
-            break
+            return symbol
 
     return symbol
 

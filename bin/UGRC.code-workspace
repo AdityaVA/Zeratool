@@ -1,0 +1,23 @@
+{
+	"folders": [
+		{
+			"path": "../.."
+		}
+	],
+	"settings": {},
+	"launch": {
+		"version": "0.2.0",
+		"configurations": [
+			{
+				"name": "Python: Current File",
+				"type": "python",
+				"request": "launch",
+				"program": "${file}",
+				"args": ["challenges/csawctf2021_password"],
+				"console": "integratedTerminal",
+				"justMyCode": false
+			}
+
+		]
+	}
+}

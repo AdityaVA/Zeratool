@@ -13,20 +13,20 @@ def getWinFunctions(binary_name):
     r2 = r2pipe.open(binary_name)
     r2.cmd("aaa")
 
-    functions = [func for func in json.loads(r2.cmd("aflj"))]
+    functions = [func for func in json.loads(r2.cmd("aflj"))] #j in r2 is for json format
 
     # Check for function that gives us system(/bin/sh)
     for func in functions:
         if "system" in str(func["name"]):
             system_name = func["name"]
-
-            # Get XREFs
+ 
+            # Get XREFs, or cross references i.e. where theses addresses are being called
             refs = [
                 func for func in json.loads(r2.cmd("axtj @ {}".format(system_name)))
             ]
-            for ref in refs:
-                if "fcn_name" in ref:
-                    winFunctions[ref["fcn_name"]] = ref
+            # for ref in refs:
+            #     if "fcn_name" in ref:
+            #         winFunctions[ref["fcn_name"]] = ref
 
     # Check for function that reads flag.txt
     # Then prints flag.txt to STDOUT

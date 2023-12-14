@@ -10,7 +10,7 @@ def checkLeak(
     full_string = b""
     run_count = 50
 
-    # Should have plenty of _%x_ in string
+    # Should have plenty of _%x_ in string https://www.appknox.com/security/bypassing-pie-nx-and-aslr
     base_input_string = properties["pwn_type"]["input"]
 
     format_specifier = b"lx"

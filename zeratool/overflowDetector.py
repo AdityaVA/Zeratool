@@ -20,7 +20,7 @@ def checkOverflow(binary_name, inputType="STDIN"):
     }
 
     p = angr.Project(binary_name, load_options={"auto_load_libs": False})
-    # Hook rands
+    # Hook rands with 4
     p.hook_symbol("rand", hook_four())
     p.hook_symbol("srand", hook_four())
 

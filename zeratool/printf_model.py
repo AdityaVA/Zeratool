@@ -98,6 +98,7 @@ class printFormat(angr.procedures.libc.printf.printf):
         count = 0
         greatest_count = 0
         prev_item = symbolic_list[0]
+        #find the biggest symbolic part 
         for i in range(1, len(symbolic_list)):
             if symbolic_list[i] and symbolic_list[i] == symbolic_list[i - 1]:
                 count = count + 1
@@ -275,6 +276,7 @@ class printf_leak_detect(angr.procedures.libc.printf.printf):
             var_addr = c_val
 
             # Are any pointers GOT addresses?
+            # cases such as printf(fmt, system)
             for name, addr in elf.got.items():
                 if var_addr == addr:
                     log.info("[+] Printf leaked GOT {}".format(name))

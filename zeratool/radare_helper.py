@@ -13,7 +13,7 @@ def getRegValues(filename, endAddr=None):
     if endAddr:
         r2.cmd("dcu {}".format(endAddr))
     else:
-        r2.cmd("e dbg.bep=entry")
+        r2.cmd("e dbg.bep=entry") #breakpoint?
         entry_addr = json.loads(r2.cmd("iej"))[0]["vaddr"]
         r2.cmd("dcu {}".format(entry_addr))
     # drj command is broken in r2 right now

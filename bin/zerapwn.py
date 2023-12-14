@@ -18,7 +18,6 @@ from zeratool import overflowRemoteLeaker
 
 logging.basicConfig()
 logging.root.setLevel(logging.INFO)
-
 loud_loggers = [
     "angr.engines",
     "angr.sim_manager",
@@ -46,8 +45,10 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("file", help="File to analyze")
     parser.add_argument("-l", "--libc", help="libc to use")
+    parser.add_argument("-lp", "--libc_path", help="libc path to use")
     parser.add_argument("-u", "--url", help="Remote URL to pwn", default="")
     parser.add_argument("-p", "--port", help="Remote port to pwn", default=0, type=int)
+    parser.add_argument("-d", "--debug", help="open gdb", action="store_true", default=False)
     parser.add_argument(
         "-v", "--verbose", help="Verbose mode", action="store_true", default=False
     )
@@ -110,6 +111,7 @@ def main():
     properties = {}
     properties["input_type"] = inputDetector.checkInputType(args.file)
     properties["libc"] = args.libc
+    properties["libc_path"] = args.libc_path
     properties["file"] = args.file
     properties["force_shellcode"] = args.force_shellcode
     properties["pwn_type"] = {}
@@ -193,10 +195,12 @@ def main():
                     remote_server=True,
                     remote_url=properties["remote"]["url"],
                     port_num=properties["remote"]["port"],
+                    debug=args.debug
                 )
             else:
                 properties["send_results"] = overflowExploitSender.sendExploit(
-                    args.file, properties
+                    args.file, properties,
+                    debug=args.debug
                 )
                 if (
                     properties["send_results"] is not None
@@ -209,12 +213,13 @@ def main():
                         remote_server=True,
                         remote_url=properties["remote"]["url"],
                         port_num=properties["remote"]["port"],
+                        debug=args.debug
                     )
 
     elif properties["pwn_type"]["type"] == "overflow_variable":
         properties["pwn_type"]["results"] = properties["pwn_type"]
         properties["send_results"] = overflowExploitSender.sendExploit(
-            args.file, properties
+            args.file, properties, debug=args.debug
         )
         if properties["send_results"]["flag_found"] and args.url != "":
             properties["remote_results"] = overflowExploitSender.sendExploit(
@@ -223,6 +228,7 @@ def main():
                 remote_server=True,
                 remote_url=args.url,
                 port_num=int(args.port),
+                debug=args.debug
             )
 
     elif properties["pwn_type"]["type"] == "Format":
